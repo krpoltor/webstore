@@ -20,7 +20,7 @@
 	</section>
 	<section class="container">
 		<div class="row">
-		<h2>Found books by title</h2>
+		<h2>Found books by title: ${bookTitle}</h2>
 			<c:forEach items="${bookListByTitle}" var="book">
 				<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 					<div class="thumbnail">
@@ -45,7 +45,7 @@
 	</section>
 	<section class="container">
 		<div class="row">
-		<h2>Found books by author</h2>
+		<h2>Found books by author: ${bookAuthor}</h2>
 			<c:forEach items="${bookListByAuthor}" var="book">
 				<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 					<div class="thumbnail">

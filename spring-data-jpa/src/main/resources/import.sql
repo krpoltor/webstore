@@ -4,3 +4,5 @@ insert into book (id, title, authors, status) values (3, 'Third book', 'Janusz J
 
 insert into userentity (id, user_name, password) values (1, 'admin', 'admin');
 insert into userentity (id, user_name, password) values (2, 'password', 'password');
+
+

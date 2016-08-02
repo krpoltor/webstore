@@ -24,6 +24,10 @@
 					authorities="ROLE_ADMIN" />
 				<security:user name="user" password="user"
 					authorities="ROLE_USER" />
+				<!-- NEW USER -->
+				<security:user name="tech" password="tech"
+					authorities="ROLE_BOOK_DELETER" />
+				<!-- -->
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>

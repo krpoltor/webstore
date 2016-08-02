@@ -21,4 +21,5 @@ public final class ViewNames implements Serializable {
 	//
 	public static final String SEARCH = "search";
 	public static final String FOUND = "found";
+	public static final String DELETE = "delete";
 }
