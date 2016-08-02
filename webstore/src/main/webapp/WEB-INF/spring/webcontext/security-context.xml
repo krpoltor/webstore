@@ -6,10 +6,11 @@
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-
 	<security:http auto-config="true">
 		<security:intercept-url pattern="/books/add"
 			access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/books/delete/book"
+			access="ROLE_BOOKS_DELETER" />
 		<security:form-login login-page="/login"
 			default-target-url="/books/add" authentication-failure-url="/loginfailed" />
 		<security:logout logout-success-url="/logout" />
@@ -24,13 +25,9 @@
 					authorities="ROLE_ADMIN" />
 				<security:user name="user" password="user"
 					authorities="ROLE_USER" />
-				<!-- NEW USER -->
 				<security:user name="tech" password="tech"
-					authorities="ROLE_BOOK_DELETER" />
-				<!-- -->
+					authorities="ROLE_BOOKS_DELETER" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
-
-
 </beans>

@@ -1,8 +1,6 @@
 package pl.spring.demo.controller;
 
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pl.spring.demo.constants.ViewNames;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
@@ -48,9 +45,6 @@ public class BookController {
 
 		return modelAndView;
 	}
-
-	// TODO: here implement methods which displays book info based on query
-	// arguments
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView getBooksToSearchFor() {
