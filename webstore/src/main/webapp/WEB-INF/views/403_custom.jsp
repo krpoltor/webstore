@@ -13,7 +13,8 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Error</h1>
-				<p>${errorMessage}</p>
+				<p>User: ${user} do not have permission to this operation. This
+					incident will be reported.</p>
 			</div>
 		</div>
 	</section>
