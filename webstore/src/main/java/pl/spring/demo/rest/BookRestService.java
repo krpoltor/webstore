@@ -19,7 +19,7 @@ public class BookRestService {
 
 	// TODO: Inject properly book service
 	@Autowired
-	BookService bookService;
+	private BookService bookService;
 
 	@RequestMapping(value = "/rest/books", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookTo> getBook() {
