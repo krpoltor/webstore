@@ -31,9 +31,7 @@
 					<a href="<spring:url value="/books" />" class="btn btn-default">
 						<span class="glyphicon-hand-left glyphicon"></span> back
 					</a>
-
 				</p>
-
 			</div>
 		</div>
 	</section>
