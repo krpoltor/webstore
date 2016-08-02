@@ -30,7 +30,6 @@ public class BookController {
 	
 	@RequestMapping
 	public String list(Model model) {
-		// TODO: implement default method (?)
 		model.addAttribute("bookList", bookService.findAllBooks());
 		return ViewNames.BOOKS;
 	}
@@ -49,8 +48,9 @@ public class BookController {
 	// TODO: here implement methods which displays book info based on query
 	// arguments
 	@RequestMapping("/book")
-	public String findBookById(Model model, @RequestParam("id") int id){
-		BookTo bookToAddToModel = bookService.findAllBooks().get(id-1);
+	public String findBookById(Model model, @RequestParam("id") Long id){
+		
+		BookTo bookToAddToModel = bookService.findBookById(id);
 		model.addAttribute("book", bookToAddToModel);
 		return ViewNames.BOOK;
 	}

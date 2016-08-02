@@ -33,6 +33,11 @@ public class BookServiceImpl implements BookService {
     public List<BookTo> findBooksByAuthor(String author) {
         return BookMapper.map2To(bookRepository.findBookByAuthor(author));
     }
+    
+    @Override
+    public BookTo findBookById(Long id){
+    	return BookMapper.map(bookRepository.findBookById(id));
+    }
 
     @Override
     @Transactional(readOnly = false)
