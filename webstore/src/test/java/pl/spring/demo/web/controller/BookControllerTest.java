@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import pl.spring.demo.constants.ModelConstants;
+import pl.spring.demo.constants.ViewNames;
 import pl.spring.demo.controller.HomeController;
 
 public class BookControllerTest {

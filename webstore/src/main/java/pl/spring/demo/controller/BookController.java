@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.constants.TextConstants;
 import pl.spring.demo.constants.ViewNames;
-import pl.spring.demo.enumerations.BookStatus;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
@@ -32,6 +30,13 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+	/**
+	 * Mapping for displaying all books.
+	 * 
+	 * @param model
+	 *            for view.
+	 * @return view name.
+	 */
 	@RequestMapping
 	public String list(Model model) {
 		model.addAttribute("bookList", bookService.findAllBooks());
@@ -51,12 +56,26 @@ public class BookController {
 		return modelAndView;
 	}
 
+	/**
+	 * Mapping for searching books.
+	 * 
+	 * @return model for search.jsp view.
+	 */
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public ModelAndView getBooksToSearchFor() {
 		ModelAndView model = new ModelAndView(ViewNames.SEARCH);
 		return model;
 	}
 
+	/**
+	 * Mapping for displaying found books.
+	 * 
+	 * @param bookTitle
+	 *            - Book title.
+	 * @param bookAuthor
+	 *            - Book author.
+	 * @return model for found.jsp view.
+	 */
 	@RequestMapping(value = "/found", method = RequestMethod.POST)
 	public ModelAndView displayFoundBooks(@RequestParam("bookTitle") String bookTitle,
 			@RequestParam("bookAuthor") String bookAuthor) {
@@ -67,7 +86,7 @@ public class BookController {
 
 		List<BookTo> foundBooksByTitleAndAuthor = bookService.findBooksByTitleAndAuthor(bookTitle, bookAuthor);
 
-		model.addObject("bookListByTitle", foundBooksByTitleAndAuthor);
+		model.addObject("foundBooksList", foundBooksByTitleAndAuthor);
 		model.addObject("bookTitle", bookTitle);
 		model.addObject("bookAuthor", bookAuthor);
 		return model;
@@ -90,6 +109,13 @@ public class BookController {
 		return ViewNames.BOOK;
 	}
 
+	/**
+	 * Mapping for deleting book with {id}.
+	 * 
+	 * @param id
+	 *            - ID of a book.
+	 * @return model for delete.jsp view.
+	 */
 	@RequestMapping("/delete/book")
 	public ModelAndView deleteBook(@RequestParam("id") Long id) {
 		ModelAndView model = new ModelAndView(ViewNames.DELETE);
@@ -105,6 +131,11 @@ public class BookController {
 		return model;
 	}
 
+	/**
+	 * Mapping for getting new book info from view.
+	 * 
+	 * @return - model for addBook.jsp view.
+	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView addBook() {
 		ModelAndView model = new ModelAndView(ViewNames.ADD_BOOK);
@@ -113,6 +144,13 @@ public class BookController {
 		return model;
 	}
 
+	/**
+	 * Mapping for adding new book.
+	 * 
+	 * @param newBook
+	 *            - BookTo from addBook().
+	 * @return - model for welcome.jsp view.
+	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView saveBook(@ModelAttribute("newBook") BookTo newBook) {
 		ModelAndView model = new ModelAndView();
