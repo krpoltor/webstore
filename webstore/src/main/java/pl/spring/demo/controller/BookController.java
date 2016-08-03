@@ -6,11 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import pl.spring.demo.constants.ModelConstants;
+import pl.spring.demo.constants.TextConstants;
 import pl.spring.demo.constants.ViewNames;
+import pl.spring.demo.enumerations.BookStatus;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
@@ -60,11 +65,9 @@ public class BookController {
 
 		model.addObject("msg", "You searched for: " + bookTitle + " written by: " + bookAuthor);
 
-		List<BookTo> foundBooksByTitle = bookService.findBooksByTitle(bookTitle);
-		List<BookTo> foundBooksByAuthor = bookService.findBooksByAuthor(bookAuthor);
-		
-		model.addObject("bookListByTitle", foundBooksByTitle);
-		model.addObject("bookListByAuthor", foundBooksByAuthor);
+		List<BookTo> foundBooksByTitleAndAuthor = bookService.findBooksByTitleAndAuthor(bookTitle, bookAuthor);
+
+		model.addObject("bookListByTitle", foundBooksByTitleAndAuthor);
 		model.addObject("bookTitle", bookTitle);
 		model.addObject("bookAuthor", bookAuthor);
 		return model;
@@ -86,14 +89,14 @@ public class BookController {
 		model.addAttribute("book", bookToAddToModel);
 		return ViewNames.BOOK;
 	}
-	
+
 	@RequestMapping("/delete/book")
-	public ModelAndView deleteBook(@RequestParam("id") Long id){
+	public ModelAndView deleteBook(@RequestParam("id") Long id) {
 		ModelAndView model = new ModelAndView(ViewNames.DELETE);
 		BookTo deletedBook = bookService.findBookById(id);
 		String bookTitle = deletedBook.getTitle();
 		String bookAuthors = deletedBook.getAuthors();
-		
+
 		model.addObject("book", deletedBook);
 		model.addObject("book.title", bookTitle);
 		model.addObject("book.authors", bookAuthors);
@@ -101,9 +104,25 @@ public class BookController {
 		bookService.deleteBook(id);
 		return model;
 	}
-	
 
-	// TODO: Implement GET / POST methods for "add book" functionality
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView addBook() {
+		ModelAndView model = new ModelAndView(ViewNames.ADD_BOOK);
+		BookTo newBook = new BookTo();
+		model.addObject("newBook", newBook);
+		return model;
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ModelAndView saveBook(@ModelAttribute("newBook") BookTo newBook) {
+		ModelAndView model = new ModelAndView();
+		model.addObject(ModelConstants.GREETING, TextConstants.WELCOME);
+		model.addObject(ModelConstants.INFO, TextConstants.INFO_TEXT);
+		bookService.saveBook(newBook);
+		model.addObject("bookCount", bookService.findAllBooks().size());
+		model.setViewName(ViewNames.WELCOME);
+		return model;
+	}
 
 	/**
 	 * Binder initialization

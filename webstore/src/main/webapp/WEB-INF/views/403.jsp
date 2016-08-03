@@ -14,6 +14,13 @@
 			<div class="container">
 				<h1>Error</h1>
 				<p>${errorMessage}</p>
+								<p>
+								<a
+									href=" <spring:url value="/" /> "
+									class="btn btn-primary"> <span
+									class="glyphicon-info-sign glyphicon" /></span> Home
+								</a>
+							</p>
 			</div>
 		</div>
 	</section>

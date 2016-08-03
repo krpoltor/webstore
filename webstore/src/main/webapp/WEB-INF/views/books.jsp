@@ -15,6 +15,11 @@
 			<div class="container">
 				<h1>Books</h1>
 				<p>This page contains all informations about books</p>
+				<p>
+					<a href=" <spring:url value="/" /> " class="btn btn-primary"> <span
+						class="glyphicon glyphicon-home" /></span> Home
+					</a>
+				</p>
 			</div>
 		</div>
 	</section>
@@ -30,15 +35,13 @@
 							<p>${book.authors}</p>
 							<p>Status: ${book.status}</p>
 							<p>
-								<a
-									href=" <spring:url value="/books/book?id=${book.id}" /> "
+								<a href=" <spring:url value="/books/book?id=${book.id}" /> "
 									class="btn btn-primary"> <span
 									class="glyphicon-info-sign glyphicon" /></span> Details
-								</a>
-								<a
+								</a> <a
 									href=" <spring:url value="/books/delete/book?id=${book.id}" /> "
-									class="btn btn-primary"> <span
-									class="glyphicon-info-sign glyphicon" /></span> Delete
+									class="btn btn-danger"> <span
+									class="glyphicon glyphicon-trash" /></span> Delete
 								</a>
 							</p>
 

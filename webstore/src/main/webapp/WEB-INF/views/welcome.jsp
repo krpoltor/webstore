@@ -25,42 +25,39 @@
 						<h3>Books</h3>
 						<p>Display all books</p>
 						<p>
-							<a href="/webstore/books" class="btn btn-default"> <span
-								class="glyphicon-info-sign glyphicon" /></span> Show all books
+							<a href="/webstore/books" class="btn btn-primary"> <span
+								class="glyphicon glyphicon-folder-open" /></span>  Show all books
 							</a>
+						</p>
+						<p>
+							<button class="label label-info">
+								Total books <span class="badge">${bookCount}</span>
+							</button>
 						</p>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<section class="container">
-		<div class="row">
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>Add book</h3>
 						<p>Create new book</p>
 						<p>
-							<a href="/webstore/books/add" class="btn btn-default"> <span
-								class="glyphicon-info-sign glyphicon" /></span> Add book
+							<a href="/webstore/books/add" class="btn btn-primary"> <span
+								class="glyphicon glyphicon-plus" /></span> Add book
 							</a>
 						</p>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<section class="container">
-		<div class="row">
 			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 				<div class="thumbnail">
 					<div class="caption">
 						<h3>Search</h3>
 						<p>Search for books</p>
 						<p>
-							<a href="/webstore/books/search" class="btn btn-default"> <span
-								class="glyphicon-info-sign glyphicon" /></span> Search
+							<a href="/webstore/books/search" class="btn btn-primary"> <span
+								class="glyphicon glyphicon-search" /></span> Search
 							</a>
 						</p>
 					</div>

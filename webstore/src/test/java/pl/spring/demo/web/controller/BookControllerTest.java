@@ -1,10 +1,8 @@
 package pl.spring.demo.web.controller;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -30,7 +28,7 @@ public class BookControllerTest {
 	}
 
 	@Test
-	public void testHomePage() throws Exception {
+	public void testBooksPage() throws Exception {
 		// given when
 		ResultActions resultActions = mockMvc.perform(get("/books"));
 		// then

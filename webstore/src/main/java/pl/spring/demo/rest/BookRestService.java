@@ -16,6 +16,8 @@ import pl.spring.demo.to.BookTo;
 @Controller
 @ResponseBody
 public class BookRestService {
+	
+	//REST dla szachow
 
 	// TODO: Inject properly book service
 	@Autowired

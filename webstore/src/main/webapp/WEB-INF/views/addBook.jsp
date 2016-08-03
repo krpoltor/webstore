@@ -16,6 +16,11 @@
 			<div class="container">
 				<h1>Book</h1>
 				<p>Add new book</p>
+				<p>
+					<a href=" <spring:url value="/" /> " class="btn btn-primary"> <span
+						class="glyphicon glyphicon-home" /></span> Home
+					</a>
+				</p>
 			</div>
 			<a href="<c:url value="/j_spring_security_logout" />"
 				class="btn btn-danger btn-mini pull-right">logout</a>
@@ -25,7 +30,6 @@
 		<form:form modelAttribute="newBook" class="form-horizontal">
 			<fieldset>
 				<legend>Add new book</legend>
-
 				<!-- Sample template for some fields in Book Entity -->
 				<div class="form-group">
 					<label class="control-label col-lg-2" for="name">Title</label>
@@ -55,8 +59,8 @@
 			</fieldset>
 			<div class="form-group">
 				<div class="col-lg-offset-2 col-lg-10">
-					<input type="submit" id="btnAdd" class="btn btn-primary"
-						value="Create" />
+				 <input type="submit"
+						id="btnAdd" class="btn btn-primary" value="Create" />
 				</div>
 			</div>
 		</form:form>

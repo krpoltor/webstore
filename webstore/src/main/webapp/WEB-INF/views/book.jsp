@@ -14,6 +14,11 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Book info</h1>
+				<p>
+					<a href=" <spring:url value="/" /> " class="btn btn-primary"> <span
+						class="glyphicon glyphicon-home" /></span> Home
+					</a>
+				</p>
 			</div>
 		</div>
 	</section>
