@@ -3,7 +3,12 @@ package pl.spring.demo.to;
 import pl.spring.demo.enumerations.BookStatus;
 
 public class BookTo {
-    private Long id;
+    @Override
+	public String toString() {
+		return "BookTo [id=" + id + ", title=" + title + ", authors=" + authors + ", status=" + status + "]";
+	}
+
+	private Long id;
     private String title;
     private String authors;
     private BookStatus status;

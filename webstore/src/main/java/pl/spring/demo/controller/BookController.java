@@ -99,7 +99,7 @@ public class BookController {
 	 *            - Data model for view.
 	 * @param id
 	 *            - Book ID from URL.
-	 * @return - view book.jsp with data from book.
+	 * @return view book.jsp with data from book.
 	 */
 	@RequestMapping("/book")
 	public String findBookById(Model model, @RequestParam("id") Long id) {
@@ -134,7 +134,7 @@ public class BookController {
 	/**
 	 * Mapping for getting new book info from view.
 	 * 
-	 * @return - model for addBook.jsp view.
+	 * @return model for addBook.jsp view.
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView addBook() {
@@ -149,7 +149,7 @@ public class BookController {
 	 * 
 	 * @param newBook
 	 *            - BookTo from addBook().
-	 * @return - model for welcome.jsp view.
+	 * @return model for welcome.jsp view.
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ModelAndView saveBook(@ModelAttribute("newBook") BookTo newBook) {
