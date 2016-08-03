@@ -1,6 +1,8 @@
 package pl.spring.demo.rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -108,4 +110,28 @@ public class BookRestService {
 	// TODO: implement some search methods considering single request parameters
 	// / multiple request parameters / array request parameters
 
+	@RequestMapping(value = "/rest/search/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BookTo>> searchById(@PathVariable("title") String title) {
+		List<BookTo> foundBooks = bookService.findBooksByTitle(title);
+
+		return new ResponseEntity<List<BookTo>>(foundBooks, HttpStatus.FOUND);
+	}
+
+	@RequestMapping(value = "/rest/search/{title}/{author}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<BookTo>> searchByTitleAndAuthor(@PathVariable("title") String title,
+			@PathVariable("author") String author) {
+		List<BookTo> foundBooks = bookService.findBooksByTitleAndAuthor(title, author);
+
+		return new ResponseEntity<List<BookTo>>(foundBooks, HttpStatus.FOUND);
+	}
+
+	@RequestMapping(value = "/rest/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Set<BookTo>> searchByMultipleTitles(@RequestParam(value = "title") String[] titlesArray) {
+		Set<BookTo> foundBooks = new HashSet<BookTo>();
+		for (String title : titlesArray) {
+			foundBooks.addAll(bookService.findBooksByTitle(title));
+		}
+
+		return new ResponseEntity<Set<BookTo>>(foundBooks, HttpStatus.FOUND);
+	}
 }
