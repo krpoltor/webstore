@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import pl.spring.demo.constants.ViewNames;
-
-@Controller
+ 
+@Controller 
 public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)

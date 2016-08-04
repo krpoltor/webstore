@@ -31,7 +31,7 @@ import pl.spring.demo.web.utils.FileUtils;
 @ContextConfiguration
 @WebAppConfiguration
 public class BookRestServiceTest {
-
+ 
 	@Autowired
 	private BookService bookService;
 	@Autowired
@@ -44,17 +44,16 @@ public class BookRestServiceTest {
 		Mockito.reset(bookService);
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
-
+ 
 	@Test
 	public void testShouldGetAllBooks() throws Exception {
-
 		// given:
 		final BookTo bookTo1 = new BookTo(1L, "title", "Author1", BookStatus.FREE);
 
 		// register response for bookService.findAllBooks() mock
 		Mockito.when(bookService.findAllBooks()).thenReturn(Arrays.asList(bookTo1));
 		// when
-		ResultActions response = this.mockMvc.perform(get("/allBooks").accept(MediaType.APPLICATION_JSON)
+		ResultActions response = this.mockMvc.perform(get("/rest/books").accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON).content("1"));
 
 		response.andExpect(status().isOk())//
@@ -69,9 +68,9 @@ public class BookRestServiceTest {
 		File file = FileUtils.getFileFromClasspath("classpath:pl/spring/demo/web/json/bookToSave.json");
 		String json = FileUtils.readFileToString(file);
 		// when
-		ResultActions response = this.mockMvc.perform(post("/book").accept(MediaType.APPLICATION_JSON)
+		ResultActions response = this.mockMvc.perform(post("/rest/books").accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON).content(json.getBytes()));
 		// then
-		response.andExpect(status().isOk());
+		response.andExpect(status().isCreated());
 	}
 }

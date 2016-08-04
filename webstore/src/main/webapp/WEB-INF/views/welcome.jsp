@@ -30,9 +30,9 @@
 							</a>
 						</p>
 						<p>
-							<button class="label label-info">
+							
 								Total books <span class="badge">${bookCount}</span>
-							</button>
+							
 						</p>
 					</div>
 				</div>

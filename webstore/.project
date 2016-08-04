@@ -45,4 +45,16 @@
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/test/java/pl/spring/demo/web/controller/ValidBookControllerTest.java</name>
+			<type>1</type>
+			<location>C:/projects/starterkit/Spring02_02/spring-mvc-zadania-master/webstore/src/test/java/pl/spring/demo/web/controller/ValidBookControllerTest.java</location>
+		</link>
+		<link>
+			<name>src/test/resources/pl/spring/demo/web/controller/controller-test-configuration.xml</name>
+			<type>1</type>
+			<location>C:/projects/starterkit/Spring02_02/spring-mvc-zadania-master/webstore/src/test/resources/pl/spring/demo/web/controller/controller-test-configuration.xml</location>
+		</link>
+	</linkedResources>
 </projectDescription>

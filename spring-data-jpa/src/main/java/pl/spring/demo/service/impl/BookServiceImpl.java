@@ -32,12 +32,12 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public List<BookTo> findBooksByAuthor(String author) {
 		return BookMapper.map2To(bookRepository.findBookByAuthor(author));
-	}
+	} 
 
 	@Override
 	public List<BookTo> findBooksByTitleAndAuthor(String title, String author) {
 		return BookMapper.map2To(bookRepository.findBooksByTitleAndAuthor(title, author));
-	}
+	} 
 
 	@Override
 	public BookTo findBookById(Long id) {
@@ -50,7 +50,7 @@ public class BookServiceImpl implements BookService {
 		BookEntity entity = BookMapper.map(book);
 		entity = bookRepository.save(entity);
 		return BookMapper.map(entity);
-	}
+	} 
 
 	@Override
 	@Transactional(readOnly = false)

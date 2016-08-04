@@ -21,7 +21,7 @@ public class HomeController {
 		model.addAttribute(ModelConstants.GREETING, TextConstants.WELCOME);
 		model.addAttribute(ModelConstants.INFO, TextConstants.INFO_TEXT);
 		//For tests following line needs to be disabled
-		//model.addAttribute("bookCount", bookService.findAllBooks().size());
+		model.addAttribute("bookCount", bookService.findAllBooks().size());
 		return ViewNames.WELCOME;
 	}
 }

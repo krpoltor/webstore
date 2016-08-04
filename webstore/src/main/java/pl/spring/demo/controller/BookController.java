@@ -1,6 +1,7 @@
 package pl.spring.demo.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.constants.TextConstants;
 import pl.spring.demo.constants.ViewNames;
@@ -21,7 +23,7 @@ import pl.spring.demo.to.BookTo;
  * Book controller
  * 
  * @author mmotowid
- *
+ * 
  */
 @Controller
 @RequestMapping("/books")
@@ -43,16 +45,13 @@ public class BookController {
 		return ViewNames.BOOKS;
 	}
 
-	/**
+	/** 
 	 * Method collects info about all books
 	 */
-	// TODO: czy ta metoda jest potrzebna skoro wszystkie informacje mamy w
-	// /books ?
 	@RequestMapping("/all")
 	public ModelAndView allBooks() {
 		ModelAndView modelAndView = new ModelAndView();
 		// TODO: implement method gathering and displaying all books
-
 		return modelAndView;
 	}
 
@@ -81,14 +80,23 @@ public class BookController {
 			@RequestParam("bookAuthor") String bookAuthor) {
 
 		ModelAndView model = new ModelAndView(ViewNames.FOUND);
-
-		model.addObject("msg", "You searched for: " + bookTitle + " written by: " + bookAuthor);
-
 		List<BookTo> foundBooksByTitleAndAuthor = bookService.findBooksByTitleAndAuthor(bookTitle, bookAuthor);
-
-		model.addObject("foundBooksList", foundBooksByTitleAndAuthor);
-		model.addObject("bookTitle", bookTitle);
-		model.addObject("bookAuthor", bookAuthor);
+		if (foundBooksByTitleAndAuthor.isEmpty()) {
+			model.addObject("msg", "Whops! Nothing here.");
+		} else {
+			model.addObject("foundBooksList", foundBooksByTitleAndAuthor);
+			if (bookTitle.isEmpty()) {
+				bookTitle = "Anything";
+			} else {
+				model.addObject("bookTitle", bookTitle);
+			}
+			if (bookAuthor.isEmpty()) {
+				bookAuthor = "Anyone";
+			} else {
+				model.addObject("bookAuthor", bookAuthor);
+			}
+			model.addObject("msg", "Found books with title: " + bookTitle + " and authors: " + bookAuthor);
+		}
 		return model;
 	}
 

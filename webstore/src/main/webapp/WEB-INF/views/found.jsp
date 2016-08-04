@@ -14,7 +14,6 @@
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Found books</h1>
-				<p>${msg}</p>
 				<p>
 					<a href=" <spring:url value="/" /> " class="btn btn-primary"> <span
 						class="glyphicon glyphicon-home" /></span> Home
@@ -25,8 +24,7 @@
 	</section>
 	<section class="container">
 		<div class="row">
-			<h2>Found books with title: ${bookTitle} and authors:
-				${bookAuthor}</h2>
+			<h2>${msg}</h2>
 			<c:forEach items="${foundBooksList}" var="book">
 				<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
 					<div class="thumbnail">

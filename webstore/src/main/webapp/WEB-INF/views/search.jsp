@@ -58,8 +58,7 @@
 					<p>
 					<div class="btn-group " role="group" aria-label="...">
 						<button type="submit" class="btn btn-primary">
-							<span class="glyphicon glyphicon-search"></span> Search by
-							clicking this button
+							<span class="glyphicon glyphicon-search"></span> Search
 						</button>
 					</div>
 				</div>
