@@ -1,17 +1,21 @@
 package pl.spring.demo.web.controller;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,9 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pl.spring.demo.controller.BookController;
 import pl.spring.demo.enumerations.BookStatus;
 import pl.spring.demo.service.BookService;
@@ -77,6 +79,11 @@ public class ValidBookControllerTest {
 		}
 	}
 
+	/**
+	 * Test for adding new book to database.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testAddBookPage() throws Exception {
 		// given
@@ -84,7 +91,7 @@ public class ValidBookControllerTest {
 		Mockito.when(bookService.saveBook(Mockito.any())).thenReturn(testBook);
 		// TODO: please take a look how we pass @ModelAttribute as a request
 		// attribute
-		ResultActions resultActions = mockMvc.perform(post("/books/add").flashAttr("newBook", testBook));
+		ResultActions resultActions = this.mockMvc.perform(post("/books/add").flashAttr("newBook", testBook));
 		// then
 		resultActions.andExpect(view().name("welcome"))
 				.andExpect(model().attribute("newBook", new ArgumentMatcher<Object>() {
@@ -96,13 +103,18 @@ public class ValidBookControllerTest {
 				}));
 	}
 
+	/**
+	 * Testing main page.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testMainBookPage() throws Exception {
 		// given
 		List<BookTo> testList = generateDefaultData();
 		Mockito.when(bookService.findAllBooks()).thenReturn(testList);
 		// attribute
-		ResultActions resultActions = mockMvc.perform(post("/books").flashAttr("bookList", testList));
+		ResultActions resultActions = this.mockMvc.perform(post("/books").flashAttr("bookList", testList));
 		// then
 		resultActions.andExpect(view().name("books"))
 				.andExpect(model().attribute("bookList", new ArgumentMatcher<Object>() {
@@ -114,16 +126,26 @@ public class ValidBookControllerTest {
 				}));
 	}
 
+	/**
+	 * Testing search page.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testSearchPage() throws Exception {
 		// given
 		// attribute
-		ResultActions resultActions = mockMvc.perform(get("/books/search").accept(MediaType.APPLICATION_JSON)
+		ResultActions resultActions = this.mockMvc.perform(get("/books/search").accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON).content("1"));
 		// then
 		resultActions.andExpect(view().name("search"));
 	}
 
+	/**
+	 * Testing found page.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testFoundBookPage() throws Exception {
 		// given
@@ -133,8 +155,7 @@ public class ValidBookControllerTest {
 		testList.add(new BookTo(1L, "First book", "Jan Kowalski", BookStatus.FREE));
 		Mockito.when(bookService.findBooksByTitleAndAuthor(testTitle, testAuthor)).thenReturn(testList);
 		// attribute
-		ResultActions resultActions = mockMvc.perform(post("/books/found?bookTitle=book&bookAuthor=kowalski")
-				.flashAttr("bookTitle", testTitle).flashAttr("bookAuthor", testAuthor));
+		ResultActions resultActions = this.mockMvc.perform(post("/books/found?bookTitle=book&bookAuthor=kowalski"));
 		// then
 		resultActions.andExpect(view().name("found"))
 				.andExpect(model().attribute("bookTitle", new ArgumentMatcher<Object>() {
@@ -152,41 +173,43 @@ public class ValidBookControllerTest {
 				}));
 	}
 
+	/**
+	 * Test for getting book by ID.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testGetBookByIdPage() throws Exception {
 		// given
 		List<BookTo> testList = generateDefaultData();
 		Mockito.when(bookService.findBookById(1L)).thenReturn(testList.get(0));
 		// attribute
-		ResultActions resultActions = mockMvc.perform(get("/books/book?id=1").flashAttr("id", 1L)
-				.accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).content("1"));
+		ResultActions resultActions = this.mockMvc.perform(get("/books/book?id=1").accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON).content("1"));
 		// then
-		// TODO: Zapytac, no modelandview found
-		resultActions.andExpect(view().name("book")).andExpect(model().attribute("id", new ArgumentMatcher<Object>() {
+		resultActions.andExpect(view().name("book")).andExpect(model().attribute("book", new ArgumentMatcher<Object>() {
 			@Override
 			public boolean matches(Object argument) {
-				Long book = (Long) argument;
-				return null != book && book.equals(testList.get(0).getId());
+				BookTo book = (BookTo) argument;
+				return null != book && book.equals(testList.get(0));
 			}
 		}));
 	}
 
+	/**
+	 * Test for deleting book by ID.
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testDeleteBookByIdPage() throws Exception {
 		// given
-		List<BookTo> testList = generateDefaultData();
-		Mockito.doCallRealMethod().when(bookService.deleteBook(1L));
+		BookTo tmpBook = new BookTo(1L, "title", "author", BookStatus.MISSING);
+		Mockito.when(bookService.findBookById(Mockito.anyLong())).thenReturn(tmpBook);
+		Mockito.doNothing().when(bookService).deleteBook(Mockito.anyLong());
 		// attribute
-		ResultActions resultActions = mockMvc.perform(post("/books/delete/book?id=1").flashAttr("id", 1L));
+		ResultActions resultActions = this.mockMvc.perform(delete("/books/delete/book?id=1"));
 		// then
-		resultActions.andExpect(view().name("delete"))
-				.andExpect(model().attribute("book", new ArgumentMatcher<Object>() {
-					@Override
-					public boolean matches(Object argument) {
-						List<BookTo> bookList = (List<BookTo>) argument;
-						return null != bookList && testList.equals(bookList);
-					}
-				}));
+		Mockito.verify(bookService, Mockito.times(1)).deleteBook(1L);
 	}
-
 }

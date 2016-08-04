@@ -30,7 +30,9 @@ public class HomeControllerTest {
 
 	@Test
 	public void testHomePage() throws Exception {
+		//int testBookCount = 3;
 		// given when
+		// TODO: poprawic ten test .flashAttr("bookCount", testBookCount )
 		ResultActions resultActions = mockMvc.perform(get("/"));
 		// then
 		resultActions.andExpect(view().name("welcome"))

@@ -25,16 +25,15 @@ import pl.spring.demo.to.BookTo;
 @ResponseBody
 public class BookRestService {
 
-	// REST dla szachow
 	private static Logger LOGGER = Logger.getLogger(BookRestService.class.getName());
 
 	@Autowired
 	private BookService bookService;
 
-	/** 
+	/**
 	 * Find all books.
 	 * 
-	 * @return
+	 * @return HttpStatus.OK.
 	 */
 	@RequestMapping(value = "/rest/books", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BookTo>> getBook() {
@@ -50,7 +49,7 @@ public class BookRestService {
 	 * 
 	 * @param id
 	 *            - book ID.
-	 * @return
+	 * @return HttpStatus.OK or HttpStatus.NOT_FOUND.
 	 */
 	@RequestMapping(value = "/rest/books/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookTo> getBook(@PathVariable("id") Long id) {
@@ -68,7 +67,7 @@ public class BookRestService {
 	 * @param book
 	 *            - book to add.
 	 * @param ucBuilder
-	 * @return
+	 * @return HttpStatus.CREATED.
 	 */
 	@RequestMapping(value = "/rest/books", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> addBook(@RequestBody BookTo book, UriComponentsBuilder ucBuilder) {
@@ -88,7 +87,9 @@ public class BookRestService {
 	 * @param id
 	 *            - ID of book to update.
 	 * @param book
-	 * @return
+	 *            - BookTo with book details.
+	 * @return HttpStatus.OK or <br>
+	 *         HttpStatus.NOT_FOUND.
 	 */
 	@RequestMapping(value = "/rest/books/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<BookTo> updateBook(@PathVariable("id") Long id, @RequestBody BookTo book) {
@@ -103,7 +104,7 @@ public class BookRestService {
 		currentBook.setAuthors(book.getAuthors());
 		currentBook.setStatus(book.getStatus());
 
-		bookService.saveBook(currentBook);
+		bookService.saveBook(currentBook); 
 		return new ResponseEntity<BookTo>(currentBook, HttpStatus.OK);
 	}
 
@@ -112,11 +113,13 @@ public class BookRestService {
 	 * 
 	 * @param id
 	 *            - ID of book to delete.
-	 * @return
+	 * @return HttpStatus.NOT_FOUND when book with given ID is not in the
+	 *         Database or <br>
+	 *         HttpStatus.NO_CONTENT for book with given ID after deleting it.
 	 */
 	@RequestMapping(value = "/rest/books/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<BookTo> deleteBook(@PathVariable("id") Long id) {
-		LOGGER.info("Fetching & Deleting User with id " + id);
+		LOGGER.info("Fetching & Deleting Book with id " + id);
 		BookTo book = bookService.findBookById(id);
 		if (book.equals(null)) {
 			LOGGER.info("Unable to delete. Book with id " + id + " not found");
@@ -127,12 +130,42 @@ public class BookRestService {
 		return new ResponseEntity<BookTo>(HttpStatus.NO_CONTENT);
 	}
 
+	/**
+	 * Deletes every book in database.
+	 * 
+	 * @return HttpStatus.NO_CONTENT.
+	 */
+	@RequestMapping(value = "/delete/", method = RequestMethod.DELETE)
+	public ResponseEntity<BookTo> deleteAllBooks() {
+		LOGGER.info("Deleting All Users");
+		bookService.deleteAllBooks();
+		return new ResponseEntity<BookTo>(HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * Searches books by title.<br>
+	 * Usage: <i>/rest/search/bookTitle</i>
+	 * 
+	 * @param title
+	 *            - book title.
+	 * @return Found books and HttpStatus.FOUND.
+	 */
 	@RequestMapping(value = "/rest/search/{title}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<BookTo>> searchById(@PathVariable("title") String title) {
+	public ResponseEntity<List<BookTo>> searchByTitle(@PathVariable("title") String title) {
 		List<BookTo> foundBooks = bookService.findBooksByTitle(title);
 		return new ResponseEntity<List<BookTo>>(foundBooks, HttpStatus.FOUND);
 	}
 
+	/**
+	 * Searches books by title and author.<br>
+	 * Usage: <i>/rest/search/bookTitle/bookAuthor</i>
+	 * 
+	 * @param title
+	 *            - book title.
+	 * @param author
+	 *            - book author.
+	 * @return Found books and HttpStatus.FOUND.
+	 */
 	@RequestMapping(value = "/rest/search/{title}/{author}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<BookTo>> searchByTitleAndAuthor(@PathVariable("title") String title,
 			@PathVariable("author") String author) {
@@ -141,6 +174,20 @@ public class BookRestService {
 		return new ResponseEntity<List<BookTo>>(foundBooks, HttpStatus.FOUND);
 	}
 
+	/**
+	 * Searches by multiple titles and authors. If there are no books that
+	 * exactly match search parameters the closest search outcome is returned.
+	 * <br>
+	 * Usage: <i>/rest/search?title=bookTitle&author=bookAuthor</i><br>
+	 * If there are no titles given this method searches only by authors.<br>
+	 * If there are no authors given this method searches only by titles.<br>
+	 * 
+	 * @param titlesArray
+	 *            - array containing titles.
+	 * @param authorsArray
+	 *            - array containing authors.
+	 * @return - Found books and HttpStatus.FOUND.
+	 */
 	@RequestMapping(value = "/rest/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Set<BookTo>> searchByMultipleTitlesAndAuthors(
 			@RequestParam(value = "title") String[] titlesArray,
@@ -157,13 +204,13 @@ public class BookRestService {
 		} else {
 			for (String title : titlesArray) {
 				for (String author : authorsArray) {
-					foundBooks.addAll(bookService.findBooksByTitleAndAuthor(title,author));
+					foundBooks.addAll(bookService.findBooksByTitleAndAuthor(title, author));
 				}
 			}
 		}
 		return new ResponseEntity<Set<BookTo>>(foundBooks, HttpStatus.FOUND);
 	}
-	
+
 	@RequestMapping(value = "/rest/coffee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> teapot() {
 		String message = "I'm a teapot!";

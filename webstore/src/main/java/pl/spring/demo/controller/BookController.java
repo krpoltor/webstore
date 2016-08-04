@@ -65,7 +65,7 @@ public class BookController {
 		ModelAndView model = new ModelAndView(ViewNames.SEARCH);
 		return model;
 	}
-
+ 
 	/**
 	 * Mapping for displaying found books.
 	 * 

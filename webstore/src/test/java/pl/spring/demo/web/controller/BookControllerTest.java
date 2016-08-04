@@ -27,8 +27,6 @@ public class BookControllerTest {
 	
 	@Mock
 	private BookService bookService;
-
-	
 	
 	@Before
 	public void setup() { 
