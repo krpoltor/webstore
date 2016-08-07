@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,12 @@ import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
 @Controller
-@ResponseBody
+@ResponseBody 
 public class BookRestService {
 
 	private static Logger LOGGER = Logger.getLogger(BookRestService.class.getName());
 
-	@Autowired
+	@Autowired 
 	private BookService bookService;
 
 	/**

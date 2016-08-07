@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import org.springframework.stereotype.Component;
+
 import pl.spring.demo.dao.UserDao;
 import pl.spring.demo.entity.UserEntity;
 
+@Component
 public class UserDaoImpl extends AbstractDao<UserEntity, Long> implements UserDao {
 
 	@Override

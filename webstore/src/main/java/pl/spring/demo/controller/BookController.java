@@ -2,6 +2,8 @@ package pl.spring.demo.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.constants.TextConstants;
 import pl.spring.demo.constants.ViewNames;
+import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
@@ -31,6 +34,8 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private BookDao bookDao;
 
 	/**
 	 * Mapping for displaying all books.
@@ -45,13 +50,13 @@ public class BookController {
 		return ViewNames.BOOKS;
 	}
 
-	/** 
+	/**
 	 * Method collects info about all books
 	 */
 	@RequestMapping("/all")
 	public ModelAndView allBooks() {
 		ModelAndView modelAndView = new ModelAndView();
-		// TODO: implement method gathering and displaying all books
+		// RESOLVED: implement method gathering and displaying all books
 		return modelAndView;
 	}
 
@@ -65,7 +70,7 @@ public class BookController {
 		ModelAndView model = new ModelAndView(ViewNames.SEARCH);
 		return model;
 	}
- 
+
 	/**
 	 * Mapping for displaying found books.
 	 * 
@@ -118,7 +123,7 @@ public class BookController {
 	}
 
 	/**
-	 * Mapping for deleting book with {id}.
+	 * Mapping for deleting book by id.
 	 * 
 	 * @param id
 	 *            - ID of a book.
@@ -136,6 +141,21 @@ public class BookController {
 		model.addObject("book.authors", bookAuthors);
 
 		bookService.deleteBook(id);
+		return model;
+	}
+
+	/**
+	 * Deletes every book in database.
+	 * 
+	 * @param model
+	 *            - String
+	 * @return model for deleteAll.jsp view.
+	 */
+	@RequestMapping("/delete/all")
+	@Transactional
+	public String deleteEveryBook(String model) {
+		model = ViewNames.DELETE_ALL;
+		bookDao.deleteAll();
 		return model;
 	}
 

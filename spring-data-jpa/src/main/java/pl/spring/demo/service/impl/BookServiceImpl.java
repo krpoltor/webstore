@@ -56,7 +56,6 @@ public class BookServiceImpl implements BookService {
 	@Transactional(readOnly = false)
 	public void deleteBook(Long id) {
 		bookRepository.delete(id);
-
 	}
 
 	@Override

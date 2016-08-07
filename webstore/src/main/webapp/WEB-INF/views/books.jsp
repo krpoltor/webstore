@@ -20,6 +20,11 @@
 						class="glyphicon glyphicon-home" /></span> Home
 					</a>
 				</p>
+				<p>
+					<a href=" <spring:url value="/books/delete/all" /> " class="btn btn-primary"> <span
+						class="glyphicon glyphicon-trash" /></span> Delete All Books
+					</a>
+				</p>
 			</div>
 		</div>
 	</section>

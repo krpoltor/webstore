@@ -11,6 +11,8 @@
 			access="ROLE_ADMIN" />
 		<security:intercept-url pattern="/books/delete/book"
 			access="ROLE_BOOKS_DELETER" />
+		<security:intercept-url pattern="/books/delete/all"
+			access="ROLE_BOOKS_DELETER" />
 		<security:form-login login-page="/login"
 			default-target-url="/books/add" authentication-failure-url="/loginfailed" />
 		<security:logout logout-success-url="/logout" />

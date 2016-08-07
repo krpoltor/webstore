@@ -1,6 +1,8 @@
 package pl.spring.demo.dao.impl;
 
-import pl.spring.demo.dao.Dao;
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,11 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.transaction.Transactional;
 
-import org.springframework.stereotype.Repository;
-
-import java.io.Serializable;
-import java.lang.reflect.ParameterizedType;
-import java.util.List;
+import pl.spring.demo.dao.Dao;
 
 @Transactional(Transactional.TxType.SUPPORTS)
 public abstract class AbstractDao<T, K extends Serializable> implements Dao<T, K> {

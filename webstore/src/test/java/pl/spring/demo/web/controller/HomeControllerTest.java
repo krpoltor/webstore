@@ -4,18 +4,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.controller.HomeController;
+import pl.spring.demo.enumerations.BookStatus;
+import pl.spring.demo.service.BookService;
+import pl.spring.demo.to.BookTo;
 
 public class HomeControllerTest {
+
+	@Autowired
+	private BookService bookService;
 
 	private MockMvc mockMvc;
 
@@ -30,10 +40,15 @@ public class HomeControllerTest {
 
 	@Test
 	public void testHomePage() throws Exception {
-		//int testBookCount = 3;
-		// given when
-		// TODO: poprawic ten test .flashAttr("bookCount", testBookCount )
-		ResultActions resultActions = mockMvc.perform(get("/"));
+		// given
+		List<BookTo> testFoundBooksList = new LinkedList<BookTo>();
+		testFoundBooksList.add(new BookTo(1L, "title", "authors", BookStatus.MISSING));
+		// when
+		Mockito.when(bookService.findAllBooks()).thenReturn(testFoundBooksList);
+		// FIXME: nullpointer for findAllBooks()
+		ResultActions resultActions = this.mockMvc//
+				.perform(get("/")//
+						.flashAttr("bookCount", testFoundBooksList.size()));
 		// then
 		resultActions.andExpect(view().name("welcome"))
 				.andExpect(model().attribute(ModelConstants.GREETING, new ArgumentMatcher<Object>() {
