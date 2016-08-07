@@ -56,7 +56,7 @@ public class BookController {
 	@RequestMapping("/all")
 	public ModelAndView allBooks() {
 		ModelAndView modelAndView = new ModelAndView();
-		// RESOLVED: implement method gathering and displaying all books
+		// RESOLVED: functionality moved to list()
 		return modelAndView;
 	}
 
