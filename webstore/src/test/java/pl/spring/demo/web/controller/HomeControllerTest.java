@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.controller.HomeController;
 import pl.spring.demo.enumerations.BookStatus;
-import pl.spring.demo.repository.BookRepository;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
@@ -32,7 +30,7 @@ public class HomeControllerTest {
 
 	@Autowired
 	private BookService bookService;
-	
+
 	private MockMvc mockMvc;
 
 	@Before
@@ -44,7 +42,8 @@ public class HomeControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(new HomeController()).setViewResolvers(viewResolver).build();
 	}
 
-	//@Ignore
+	// @Ignore
+
 	@Test
 	public void testHomePage() throws Exception {
 		// given
@@ -52,10 +51,8 @@ public class HomeControllerTest {
 		testFoundBooksList.add(new BookTo(1L, "title", "authors", BookStatus.MISSING));
 		// when
 		Mockito.when(bookService.findAllBooks()).thenReturn(testFoundBooksList);
-		// nullpointer exception for findAllBooks() because model attribute was added
-		ResultActions resultActions = this.mockMvc//
-				.perform(get("/")//
-						.flashAttr("bookCount", bookService.findAllBooks().size()));
+		ResultActions resultActions = mockMvc.perform(get("/")//
+				.flashAttr("bookCount", bookService.findAllBooks().size()));
 		// then
 		resultActions.andExpect(view().name("welcome"))
 				.andExpect(model().attribute(ModelConstants.GREETING, new ArgumentMatcher<Object>() {

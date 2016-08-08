@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.spring.demo.constants.ModelConstants;
 import pl.spring.demo.constants.TextConstants;
 import pl.spring.demo.constants.ViewNames;
-import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
 
@@ -35,8 +34,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@Autowired
-	private BookDao bookDao;
 
 	/**
 	 * Mapping for displaying all books.
@@ -91,19 +88,29 @@ public class BookController {
 			model.addObject("msg", "Whops! Nothing here.");
 		} else {
 			model.addObject("foundBooksList", foundBooksByTitleAndAuthor);
-			if (bookTitle.isEmpty()) {
-				bookTitle = "Anything";
-			} else {
-				model.addObject("bookTitle", bookTitle);
-			}
-			if (bookAuthor.isEmpty()) {
-				bookAuthor = "Anyone";
-			} else {
-				model.addObject("bookAuthor", bookAuthor);
-			}
+			bookTitle = checkTitle(bookTitle, model);
+			bookAuthor = checkAuthor(bookAuthor, model);
 			model.addObject("msg", "Found books with title: " + bookTitle + " and authors: " + bookAuthor);
 		}
 		return model;
+	}
+
+	private String checkAuthor(String bookAuthor, ModelAndView model) {
+		if (bookAuthor.isEmpty()) {
+			bookAuthor = "Anyone";
+		} else {
+			model.addObject("bookAuthor", bookAuthor);
+		}
+		return bookAuthor;
+	}
+
+	private String checkTitle(String bookTitle, ModelAndView model) {
+		if (bookTitle.isEmpty()) {
+			bookTitle = "Anything";
+		} else {
+			model.addObject("bookTitle", bookTitle);
+		}
+		return bookTitle;
 	}
 
 	/**
@@ -131,7 +138,7 @@ public class BookController {
 	 * @return model for delete.jsp view.
 	 */
 	@RequestMapping("/delete/book")
-	public ModelAndView deleteBook(@RequestParam("id") Long id) {
+	public ModelAndView deleteBookById(@RequestParam("id") Long id) {
 		ModelAndView model = new ModelAndView(ViewNames.DELETE);
 		BookTo deletedBook = bookService.findBookById(id);
 		String bookTitle = deletedBook.getTitle();

@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,7 +27,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pl.spring.demo.controller.BookController;
-import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.enumerations.BookStatus;
 import pl.spring.demo.service.BookService;
 import pl.spring.demo.to.BookTo;
@@ -41,9 +39,6 @@ public class ValidBookControllerTest {
 	@Autowired
 	private BookService bookService;
 	
-	//@Autowired
-	//private BookDao bookDao;
-
 	private MockMvc mockMvc;
 
 	@Before
