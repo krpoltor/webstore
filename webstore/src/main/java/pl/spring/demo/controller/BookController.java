@@ -34,6 +34,7 @@ public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	
 	@Autowired
 	private BookDao bookDao;
 
@@ -155,7 +156,7 @@ public class BookController {
 	@Transactional
 	public String deleteEveryBook(String model) {
 		model = ViewNames.DELETE_ALL;
-		bookDao.deleteAll();
+		bookService.deleteAllBooks();
 		return model;
 	}
 

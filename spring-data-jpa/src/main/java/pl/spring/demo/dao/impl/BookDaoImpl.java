@@ -1,10 +1,15 @@
 package pl.spring.demo.dao.impl;
 
 import java.util.List;
+
 import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Component;
+
 import pl.spring.demo.dao.BookDao;
 import pl.spring.demo.entity.BookEntity;
 
+@Component
 public class BookDaoImpl extends AbstractDao<BookEntity, Long> implements BookDao {
 
 	@Override

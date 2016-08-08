@@ -34,8 +34,10 @@
 	</bean>
 
 	<bean id="bookRestService" class="pl.spring.demo.rest.BookRestService" />
-	
+
 	<bean class="org.mockito.Mockito" factory-method="mock">
 		<constructor-arg value="pl.spring.demo.service.BookService" />
 	</bean>
+
+	<!-- <bean id="bookDao" class="pl.spring.demo.dao.impl.BookDaoImpl" /> -->
 </beans>

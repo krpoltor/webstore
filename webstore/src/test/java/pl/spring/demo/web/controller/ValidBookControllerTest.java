@@ -9,10 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,9 +40,9 @@ public class ValidBookControllerTest {
 
 	@Autowired
 	private BookService bookService;
-
-	// @Autowired
-	// private BookDao bookDao;
+	
+	//@Autowired
+	//private BookDao bookDao;
 
 	private MockMvc mockMvc;
 
@@ -222,16 +222,14 @@ public class ValidBookControllerTest {
 	 * 
 	 * @throws Exception
 	 */
-	// bean creation exception for autowiring bookDao
-	@Ignore
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void testDeleteAllBooks() throws Exception {
 		// given
-		//Mockito.doThrow(RuntimeException.class).when(bookDao).deleteAll();
+		Mockito.doNothing().when(bookService).deleteAllBooks();
 		// when
 		ResultActions resultActions = this.mockMvc.perform(get("/books/delete/all"));
 		// then
-		// Mockito.verify(bookDao, Mockito.times(1)).deleteAll();
+		Mockito.verify(bookService, Mockito.times(1)).deleteAllBooks();
 	}
 
 	/**

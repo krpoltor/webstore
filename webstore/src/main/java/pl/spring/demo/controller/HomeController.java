@@ -14,7 +14,7 @@ import pl.spring.demo.service.BookService;
 public class HomeController {
 
 	@Autowired
-	BookService bookService;
+	private BookService bookService;
 
 	@RequestMapping("/")
 	public String welcome(Model model) {
